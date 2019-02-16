@@ -39,12 +39,12 @@
         </dependency>
 		
 		<!--  Below two dependencies for security -->
-		 
+ 		 
  		<dependency>
    		 <groupId>org.springframework.boot</groupId>
    		 <artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-	 	 
+ 	 	 
 		 
 		 
 		 <dependency>
@@ -76,11 +76,21 @@
 			<version>5.1.45</version>
 		</dependency>
 		
+		 <dependency>
+    		<groupId>com.mchange</groupId>
+    		<artifactId>mchange-commons-java</artifactId>
+    	<version>0.2.11</version>
+		</dependency> 
+		  
+		  
 		<dependency>
 			<groupId>com.mchange</groupId>
 			<artifactId>c3p0</artifactId>
 			<version>0.9.5.2</version>
 		</dependency>
+		
+		
+		
      
     <!-- Servlet, JSP and JSTL support -->
 		<dependency>

@@ -26,24 +26,7 @@ public class DataSourceConfig {
 	@Autowired
 	private Environment env;
 	
-	// set up a logger f
 	
-	//private Logger logger = Logger.getLogger(getClass().getName());
-	
-	
-	// define a bean for ViewResolver
-
-/*	@Bean
-	public ViewResolver viewResolver() {
-		
-		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-		
-		viewResolver.setPrefix("/WEB-INF/view/");
-		viewResolver.setSuffix(".jsp");
-		
-		return viewResolver;
-	}
-*/
 	
 	// define a bean for  security datasource
 	
