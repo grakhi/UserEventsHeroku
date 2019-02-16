@@ -70,13 +70,8 @@ public class EventsController {
 	@GetMapping("/events")
 	public String listEvents(HttpServletRequest request, Model theModel) {
 
-		//System.out.println("Request " );
-
-		//	if (loggedInUser == null) { // This is only for demo purpose as logout not working as expected	
-		setLoggedInUserID();
+	    //setLoggedInUserID();
 		
-		//	}
-
 		fetchEventData();
 
 		updateLists(theModel);
@@ -87,12 +82,15 @@ public class EventsController {
 	@GetMapping("/events/join/{id}")
 	public String joinEvent(@PathVariable("id") String eventId, Model theModel) {
 
-		mapEvents = DAORepositoryService.addJoiningEvent(getLoggedInUserId(), Integer.parseInt(eventId));
+		//mapEvents = 
+		DAORepositoryService.addJoiningEvent(getLoggedInUserId(), Integer.parseInt(eventId));
 
 		// fetchEventData();
-		updateLists(theModel);
+		//updateLists(theModel);
+		
+		return "redirect:/events";
 
-		return "displayevents";
+		//return "displayevents";
 
 	}
 

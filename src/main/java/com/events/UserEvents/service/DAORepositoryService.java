@@ -112,7 +112,7 @@ public class DAORepositoryService {
 	 */
 
 	@Transactional
-	public Map addJoiningEvent(long userId, long eventId) {
+	public void addJoiningEvent(long userId, long eventId) {
 
 		Optional<User> u = findUser(userId);
 		User user = u.get();
@@ -125,9 +125,9 @@ public class DAORepositoryService {
 		
 		userRepository.save(user);
 
-		mapEvents = getAllEvents(userId);
+		//mapEvents = getAllEvents(userId);
 
-		return mapEvents;
+		//return mapEvents;
 	}
 
 	@Transactional
