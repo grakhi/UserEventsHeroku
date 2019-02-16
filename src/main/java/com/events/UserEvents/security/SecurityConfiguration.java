@@ -1,6 +1,6 @@
 package com.events.UserEvents.security;
 
-/* 
+ 
 
 import javax.sql.DataSource;
 
@@ -109,4 +109,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
 
- */
+ 

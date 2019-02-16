@@ -14,8 +14,8 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.core.Authentication;
-//import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
@@ -224,16 +224,16 @@ public class EventsController {
 		//logins for demo purpose.
 		//if (loggedInUser == null) {
 
-/*		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		System.out.println("Logged In User : " + auth.getName());
 
 		loggedInUser = DAORepositoryService.findUserByEmail(auth.getName());
 
 		loggedInUserId = loggedInUser.getId();
-*/
+
 		
-		loggedInUserId = 2; //Bypass spring security to test Heroku
+	//	loggedInUserId = 2; //Bypass spring security to test Heroku
 			
 		//}
 	}
@@ -242,10 +242,10 @@ public class EventsController {
 
 	//	loggedInUserId = 3;
 	
-		loggedInUserId =   2; //Bypass spring security to test Heroku
+	//	loggedInUserId =   2; //Bypass spring security to test Heroku
 		
 		
-	/*	
+		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		System.out.println("Logged In User : " + auth.getName());
@@ -253,7 +253,7 @@ public class EventsController {
 		loggedInUser = DAORepositoryService.findUserByEmail(auth.getName());
 
 		loggedInUserId = loggedInUser.getId();
-	*/		
+			
 		
 		return loggedInUserId;
 	}
