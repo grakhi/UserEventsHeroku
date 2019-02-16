@@ -36,7 +36,7 @@ public class LoginController {
 		 public ModelAndView login() {
 		  ModelAndView model = new ModelAndView();
 		  
-		  model.setViewName("/login");
+		  model.setViewName("login");
 		  return model;
 		 }
 		
