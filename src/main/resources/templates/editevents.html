@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Events</title>
+
+<link
+	href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"
+	rel="Stylesheet" type="text/css" />
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript"
+	src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+<script language="javascript">
+        $(document).ready(function () {
+            $("#txtdate").datepicker({
+                minDate: 0
+            });
+        });         
+ 
+        function checkForm(form)
+        {
+          
+          if(form.name.value != "" && form.location.value != "" && form.date.value != "" ) {
+            
+          } else {
+            alert("Error: Please enter field values");
+            return false;
+          }
+
+          //alert("You entered a valid password: " + form.password.value);
+          return true;
+        }
+        
+ </script>
+    
+    
+    
+
+</head>
+
+<body>
+
+
+
+	<form th:action="@{/events/edit/}" method="post"  onsubmit="return checkForm(this);">
+
+
+		<h3>
+			<p th:text=${eventName} />
+		</h3>
+
+		<p>
+			Name: <input type="text" name="name" th:value="${eventName}" />
+		</p>
+
+		<input type="hidden" name="eventname" th:value=${eventName} /> <input
+			type="hidden" name="eventId" th:value=${eventId} />
+
+		<p>
+			Date:
+			<!--  <input type="text" name="date" />  -->
+			<input id="txtdate" name="date" type="text" placeholder="mm/dd/yyyy"
+				style="background: #fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png) 97% 50% no-repeat;"
+				required>
+		</p>
+		<p>
+			Location: <input type="text" name="location" th:value="${location}" />
+		</p>
+		<p>
+			State:
+
+			<!-- 	<input type="text" name="state" th:value=${state} /></p>  -->
+			<select name="state">
+				<option value="AL">AL</option>
+				<option value="AK">AK</option>
+				<option value="AZ">AZ</option>
+				<option value="AR">AR</option>
+				<option value="CA" selected>CA</option>
+				<option value="CO">CO</option>
+				<option value="CT">CT</option>
+				<option value="DE">DE</option>
+				<option value="FL">FL</option>
+				<option value="GA">GA</option>
+				<option value="HI">HI</option>
+				<option value="ID">ID</option>
+				<option value="IL">IL</option>
+				<option value="IN">IN</option>
+				<option value="IA">IA</option>
+				<option value="KS">KS</option>
+				<option value="KY">KY</option>
+				<option value="LA">LA</option>
+				<option value="ME">ME</option>
+				<option value="MD">MD</option>
+				<option value="MA">MA</option>
+				<option value="MI">MI</option>
+				<option value="MN">MN</option>
+				<option value="MS">MS</option>
+				<option value="MO">MO</option>
+				<option value="MT">MT</option>
+				<option value="NE">NE</option>
+				<option value="NV">NV</option>
+				<option value="NH">NH</option>
+				<option value="NJ">NJ</option>
+				<option value="NM">NM</option>
+				<option value="NY">NY</option>
+				<option value="NC">NC</option>
+				<option value="ND">ND</option>
+				<option value="OH">OH</option>
+				<option value="OK">OK</option>
+				<option value="OR">OR</option>
+				<option value="PA">PA</option>
+				<option value="RI">RI</option>
+				<option value="SC">SC</option>
+				<option value="SD">SD</option>
+				<option value="TN">TN</option>
+				<option value="TX">TX</option>
+				<option value="UT">UT</option>
+				<option value="VT">VT</option>
+				<option value="VA">VA</option>
+				<option value="WA">WA</option>
+				<option value="WV">WV</option>
+				<option value="WI">WI</option>
+				<option value="WY">WY</option>
+			</select> <input type="submit" value="Edit" />
+	</form>
+
+
+</body>
+</html>
+
+
+

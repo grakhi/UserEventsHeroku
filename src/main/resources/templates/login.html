@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Sign in</title>
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.min.css">
+
+
+
+<script type="text/javascript">
+
+  function checkForm(form)
+  {
+    
+    if(form.password.value != ""  && form.password.value == form.confirmpassword.value) {
+      
+    } else {
+      alert("Error: Please check that you've entered and confirmed your password!");
+      return false;
+    }
+
+    //alert("You entered a valid password: " + form.password.value);
+    return true;
+  }
+
+</script>
+
+
+</head>
+
+<body>
+
+
+
+
+<section class="blog-single-post blog-section">
+
+		
+
+    <div class="container">
+    
+    	<div>
+			<h4>Welcome</h4>
+		</div>
+    
+        <div th:if="${errorExists}">
+			<h5>User already exists</h5>
+		</div>
+
+		<div th:if="${registerSuccess}">
+			<h5>Registration successful. Login to continue</h5>
+		</div><br>
+
+		
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="post-area sec-padd">
+                    <article class="classic-blog-news">
+                        <div class="lower-content">
+                            <div class="category"></div>
+                            <div class="content">
+                                <div class="text" style="color: #000;font-size: 16px;line-height: 26px;font-family:'Roboto-light';">
+                                    <article class="col-md-12 col-sm-6 col-xs-12 left-column" >
+
+                                    	<div style="border: 2px solid #000000;padding: 5px;">
+										<!-- <h3>Register</h3> -->
+										<h3 style="text-align: left;margin-top: -20px;height: 30px;line-height: 20px;"><span style="background-color: white;">Register</span></h3>
+										<form th:action="@{/signup}" method="post" onsubmit="return checkForm(this);">
+
+											<table align="center" cellpadding = "10">
+											 
+											<tr>
+											<td>First name:</td>
+											<td><input type="text" name="firstname" required />
+											</td>
+											</tr>
+											  
+											<tr>
+											<td>Last name:</td>
+											<td><input type="text" name="lastname" required />
+											</td>
+											</tr>
+
+											<tr>
+											<td>Email: </td>
+											<td><input type="text" name="email" required />
+											</td>
+											</tr>
+
+											<tr>
+											<td>Location: </td>
+											<td><input type="text" name="location" required />
+											</td>
+											</tr>
+											<tr>
+											<td>State: </td>
+											<td><select name="state">
+													<option value="AL">AL</option>
+													<option value="AK">AK</option>
+													<option value="AZ">AZ</option>
+													<option value="AR">AR</option>
+													<option value="CA" selected>CA</option>
+													<option value="CO">CO</option>
+													<option value="CT">CT</option>
+													<option value="DE">DE</option>
+													<option value="FL">FL</option>
+													<option value="GA">GA</option>
+													<option value="HI">HI</option>
+													<option value="ID">ID</option>
+													<option value="IL">IL</option>
+													<option value="IN">IN</option>
+													<option value="IA">IA</option>
+													<option value="KS">KS</option>
+													<option value="KY">KY</option>
+													<option value="LA">LA</option>
+													<option value="ME">ME</option>
+													<option value="MD">MD</option>
+													<option value="MA">MA</option>
+													<option value="MI">MI</option>
+													<option value="MN">MN</option>
+													<option value="MS">MS</option>
+													<option value="MO">MO</option>
+													<option value="MT">MT</option>
+													<option value="NE">NE</option>
+													<option value="NV">NV</option>
+													<option value="NH">NH</option>
+													<option value="NJ">NJ</option>
+													<option value="NM">NM</option>
+													<option value="NY">NY</option>
+													<option value="NC">NC</option>
+													<option value="ND">ND</option>
+													<option value="OH">OH</option>
+													<option value="OK">OK</option>
+													<option value="OR">OR</option>
+													<option value="PA">PA</option>
+													<option value="RI">RI</option>
+													<option value="SC">SC</option>
+													<option value="SD">SD</option>
+													<option value="TN">TN</option>
+													<option value="TX">TX</option>
+													<option value="UT">UT</option>
+													<option value="VT">VT</option>
+													<option value="VA">VA</option>
+													<option value="WA">WA</option>
+													<option value="WV">WV</option>
+													<option value="WI">WI</option>
+													<option value="WY">WY</option>
+												</select>
+											</td>
+											</tr>
+
+											<tr>
+											<td>Password: </td>
+											<td><input type="password" name="password" required />
+											</td>
+											</tr>
+
+											<tr>
+											<td>PW Conf: </td>
+											<td><input type="password" name="confirmpassword"required />
+											</td>
+											</tr>
+
+											<tr>
+											<td></td>
+											<td align="right">
+											<input type="submit" value="Register" style="background-color:#5151d6;color: #fff;" />
+											</td>
+											</tr>
+											</table>
+										</form>
+										</div>
+                                    </article>
+                                 </div>
+                            </div>                        
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+                <div class="post-area sec-padd">
+                    <article class="classic-blog-news">
+                        
+                        <div class="lower-content">
+                            <div class="category"></div>
+                            <div class="content">
+                                <div class="text" style="color: #000;font-size: 16px;line-height: 26px;font-family:'Roboto-light';">
+                                    <article class="col-md-12 col-sm-6 col-xs-12 left-column" >
+                                        <div style="border: 2px solid #000000;padding: 5px;" >
+                                        	<h3 style="text-align: left;margin-top: -20px;height: 30px;line-height: 20px;"><span style="background-color: white;">Sign in</span></h3>
+
+											<div  th:if="${param.error}">
+												The email or password is incorrect!</div><br>
+												
+											<form th:action="@{/login}" method="post">
+
+												<table align="center" cellpadding = "10">
+													<tr>
+													<td>Email:</td>
+													<td><input type="email" id="email" name="email" placeholder="Email" required autofocus>
+													</td>
+													</tr>
+
+													<tr>
+													<td>Password:</td>
+													<td><input type="password" id="password" name="password" placeholder="Password" required>
+													</td>
+													</tr>
+
+													<tr>
+													<td></td>
+													<td align="right"><button type="submit" style="background-color:#5151d6;color: #fff;">Log in</button>
+													</td>
+													</tr>
+												</table>
+											</form>
+										</div>
+                                    </article>
+                                 </div>
+                            </div>                        
+                        </div>
+                    </article>
+                </div>
+                    
+            </div>
+             
+            
+        </div>
+    </div>
+</section>
+
+
+
+
+
+	
+</body>
+</html>

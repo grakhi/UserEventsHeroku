@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+
+	<section class="blog-single-post blog-section">
+		<div class="container">
+			<br>
+			<br>
+
+			<div class="row">
+				<div class="col-md-6 col-sm-12">
+					<div class="post-area sec-padd">
+						<article class="classic-blog-news">
+							<div class="lower-content">
+								<div class="category"></div>
+								<div class="content">
+									<div class="text"
+										style="color: #000; font-size: 16px; line-height: 26px; font-family: 'Roboto-light';">
+										<article class="col-md-12 col-sm-6 col-xs-12 left-column">
+
+											<div style="border: 2px solid #000000; padding: 5px;">
+
+												<h2 th:text="${eventData.eventName}"></h2>
+												<p
+													th:text="' Host :' + ${eventData.getUserCreated().getFullName()}" />
+
+												<!--  <p th:text="'Date :' + ${ #temporals.format(eventData.getEventDate() , 'MMMM-D-YYYY' ) }" /> -->
+												<p
+													th:text="'Date :' + ${#dates.format(eventData.getEventDate(), 'MMMM,d,yyyy')}" />
+
+												<p
+													th:text="'Location: ' + ${eventData.eventLocation + ', ' + eventData.state}">
+												<p
+													th:text="'People who are attending this event : ' + ${countJoiners}" />
+
+												<table border="3" style="border: 2px solid #000000;">
+													<thead>
+														<tr>
+															<th>Name</th>
+															<th>Location</th>
+														</tr>
+													</thead>
+
+													<tbody>
+														<tr th:each="tempEvent : ${joiningUsers}">
+															<td th:text="${tempEvent.getFullName()}" />
+															<td th:text="${tempEvent.getLocation()}" />
+													</tbody>
+												</table>
+
+											</div>
+										</article>
+									</div>
+								</div>
+							</div>
+						</article>
+					</div>
+				</div>
+
+				<div class="col-md-6 col-sm-12">
+					<div class="post-area sec-padd">
+						<article class="classic-blog-news">
+
+							<div class="lower-content">
+								<div class="category"></div>
+								<div class="content">
+									<div class="text"
+										style="color: #000; font-size: 16px; line-height: 26px; font-family: 'Roboto-light';">
+										<article class="col-md-12 col-sm-6 col-xs-12 left-column">
+											<h2>Message Wall</h2>
+											<div
+												style="overflow: scroll; width: 400px; height: 400px; background-color: #e8e8e8; border: 2px solid #000000; padding: 5px;">
+												<p>
+												<table>
+													<thead>
+														<tr>
+															<th></th>
+															<th></th>
+															<th></th>
+
+														</tr>
+													</thead>
+
+													<tbody>
+
+														<tr>
+															<td>Ninja says: Hello Everyone
+																<hr>
+															</td>
+														</tr>
+														<tr th:each="msg : ${wallmessages}">
+															<td th:text="${msg.getUserSent().getFullName()}" />
+															<td th:text="':' + ${msg.message}" />
+														</tr>
+													</tbody>
+												</table>
+												</p>
+											</div>
+											<h4>Add comment</h4>
+
+											<form th:action="@{/events/comment/}" method="post">
+
+
+												<input type="hidden" name="eventId"
+													th:value="${eventData.id}" />
+
+												<p>
+
+													<!--  <input type="text" name="message"    /> -->
+
+													<textarea rows="4" cols="50" name="message"></textarea>
+
+												</p>
+
+												<input type="submit" value="Submit" />
+
+
+											</form>
+
+											<form th:action="@{'/events/' + ${eventData.id} }">
+												<input type="submit" value="Refresh" />
+											</form>
+
+
+
+
+										</article>
+									</div>
+								</div>
+							</div>
+						</article>
+					</div>
+
+				</div>
+
+
+			</div>
+		</div>
+	</section>
+
+
+
+</body>
+</html>
+
+
+
