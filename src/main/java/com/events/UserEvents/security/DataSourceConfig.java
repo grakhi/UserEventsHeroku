@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
-//import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+/*import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -90,7 +90,7 @@ public class DataSourceConfig {
 
 
 
-
+*/
 
 
 
