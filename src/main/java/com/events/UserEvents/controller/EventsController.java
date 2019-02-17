@@ -22,6 +22,7 @@ import com.events.UserEvents.entity.User;
 import com.events.UserEvents.service.DAORepositoryService;
 
 import com.events.UserEvents.util.DateUtils;
+import com.events.UserEvents.util.State;
 
 @Controller
 
@@ -50,6 +51,7 @@ public class EventsController {
 		theModel.addAttribute("eventsToJoinNotState", mapEvents.get("toJoinOtherStates"));
 
 		theModel.addAttribute("currentUser", mapEvents.get("currentUser"));
+		theModel.addAttribute("states", State.getStates() );
 	}
 
 	@GetMapping("/events")
@@ -118,6 +120,8 @@ public class EventsController {
 			theModel.addAttribute("date", eventDataMap.get("date"));
 			theModel.addAttribute("location", eventDataMap.get("location"));
 			theModel.addAttribute("state", eventDataMap.get("state"));
+			
+			theModel.addAttribute("states", State.getStates() );
 
 			return "editevents";
 		}

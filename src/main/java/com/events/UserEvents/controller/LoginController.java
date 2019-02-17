@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.events.UserEvents.service.DAORepositoryService;
-
+import com.events.UserEvents.util.State;
 import com.events.UserEvents.entity.User;
 
 @Controller
@@ -24,12 +24,15 @@ public class LoginController {
 	public ModelAndView login() {
 		ModelAndView model = new ModelAndView();
 
+		model.addObject("states", State.getStates() );
 		model.setViewName("login");
 		return model;
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String register(HttpServletRequest request, Model model) {
+		
+		
 
 		User user = DAORepositoryService.findUserByEmail(request.getParameter("email"));
 
@@ -42,6 +45,8 @@ public class LoginController {
 				request.getParameter("email"), request.getParameter("location"), request.getParameter("state"),
 				request.getParameter("password"));
 
+		
+		model.addAttribute("states", State.getStates() );
 		model.addAttribute("registerSuccess", "Registered successfully. Login to continue");
 		return "login";
 

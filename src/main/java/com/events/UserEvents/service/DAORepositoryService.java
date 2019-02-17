@@ -42,11 +42,18 @@ public class DAORepositoryService {
 
 		User user = new User(firstName, lastName, email, location, state, password);
 
-		user = userRepository.save(user);
+		user = saveUser(user);
 
 		return user.getId();
 	}
 
+	@Transactional
+	public User saveUser(User user) {
+
+		user = userRepository.save(user);
+		return user;
+
+	}
 	
 
 	public User findUserByEmail(String email) {
@@ -219,6 +226,11 @@ public class DAORepositoryService {
 
 		// remove all associations
 		Query q = em.createNativeQuery("DELETE FROM USER_EVENT  WHERE events_id = ? ");
+		q.setParameter(1, eventId);
+		q.executeUpdate();
+		
+		//Delete messages
+		q = em.createNativeQuery("DELETE FROM MESSAge  WHERE event_message_id = ? ");
 		q.setParameter(1, eventId);
 		q.executeUpdate();
 
