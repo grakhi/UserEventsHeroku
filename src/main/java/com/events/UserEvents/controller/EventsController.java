@@ -1,25 +1,14 @@
 package com.events.UserEvents.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+
 import java.util.Map;
-import java.util.Optional;
-
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -27,16 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 
-//import com.events.UserEvents.LoggedInUser;
 import com.events.UserEvents.entity.Event;
 import com.events.UserEvents.entity.User;
 
 import com.events.UserEvents.service.DAORepositoryService;
-import com.events.UserEvents.service.EventRepository;
+
 import com.events.UserEvents.util.DateUtils;
 
 @Controller
-//@RequestMapping("/events")
+
 public class EventsController {
 
 	@Autowired
@@ -61,17 +49,14 @@ public class EventsController {
 		theModel.addAttribute("eventsJoiningNotState", mapEvents.get("joiningOtherStates"));
 		theModel.addAttribute("eventsToJoinNotState", mapEvents.get("toJoinOtherStates"));
 
-		
 		theModel.addAttribute("currentUser", mapEvents.get("currentUser"));
 	}
-
-	
 
 	@GetMapping("/events")
 	public String listEvents(HttpServletRequest request, Model theModel) {
 
-	    //setLoggedInUserID();
 		
+
 		fetchEventData();
 
 		updateLists(theModel);
@@ -82,7 +67,6 @@ public class EventsController {
 	@GetMapping("/events/join/{id}")
 	public String joinEvent(@PathVariable("id") String eventId, Model theModel) {
 
-		
 		DAORepositoryService.addJoiningEvent(getLoggedInUserId(), Integer.parseInt(eventId));
 
 		return "redirect:/events";
@@ -91,12 +75,9 @@ public class EventsController {
 	@GetMapping("/events/cancel/{id}")
 	public String cancelEvent(@PathVariable("id") String eventId, Model theModel) {
 
-		
 		DAORepositoryService.deleteJoiningEvent(getLoggedInUserId(), Long.parseLong(eventId));
 
-		
 		return "redirect:/events";
-		
 
 	}
 
@@ -106,9 +87,8 @@ public class EventsController {
 		updateEvent(request.getParameter("eventname"), request.getParameter("date"), request.getParameter("location"),
 				request.getParameter("state"));
 
-		
-        return "redirect:/events";
-		
+		return "redirect:/events";
+
 	}
 
 	private void updateEvent(String name, String date, String location, String state) throws Exception {
@@ -119,17 +99,12 @@ public class EventsController {
 
 	}
 
-	
 	@RequestMapping(value = "/events/edit/", method = RequestMethod.POST)
 	public String editEvent(HttpServletRequest request, Model model) throws Exception {
 
-		
-		DAORepositoryService.editEvent(Long.parseLong(request.getParameter("eventId")),
-				request.getParameter("name"),
+		DAORepositoryService.editEvent(Long.parseLong(request.getParameter("eventId")), request.getParameter("name"),
 				request.getParameter("date"), request.getParameter("location"), request.getParameter("state"),
 				getLoggedInUserId());
-
-		
 
 		return "redirect:/events";
 
@@ -159,16 +134,14 @@ public class EventsController {
 
 	}
 
-	//@DeleteMapping("/events/delete/{id}")
-	@RequestMapping(value = "/events/delete/{id}")
 	
+	@RequestMapping(value = "/events/delete/{id}")
+
 	public String deleteEvent(@PathVariable("id") Long eventId, Model theModel) {
 
 		DAORepositoryService.deleteEvent(eventId, getLoggedInUserId());
-		
-		
+
 		return "redirect:/events";
-		
 
 	}
 
@@ -176,8 +149,6 @@ public class EventsController {
 
 	public String showEventDetailsAndWall(@PathVariable("id") String eventId, Model theModel) {
 
-		
-		
 		Map dataMap = DAORepositoryService.getEventWall(getLoggedInUserId(), Long.parseLong(eventId));
 
 		fillEventWallData(theModel, dataMap);
@@ -208,27 +179,15 @@ public class EventsController {
 		return "eventwall";
 	}
 
-	private void setLoggedInUserID() {
-
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-		
-		loggedInUser = DAORepositoryService.findUserByEmail(auth.getName());
-
-		loggedInUserId = loggedInUser.getId();
 	
-	}
-
 	private long getLoggedInUserId() {
 
-	
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		loggedInUser = DAORepositoryService.findUserByEmail(auth.getName());
 
 		loggedInUserId = loggedInUser.getId();
-			
-		
+
 		return loggedInUserId;
 	}
 

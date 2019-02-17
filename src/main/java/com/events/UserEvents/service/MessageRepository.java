@@ -15,6 +15,4 @@ import com.events.UserEvents.entity.User;
 public interface MessageRepository extends JpaRepository<Message, Long> {
 	
 	
-	
-	
 }

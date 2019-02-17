@@ -11,19 +11,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Repository;
 
-//import com.events.UserEvents.UserRepositoryCommandLineRunner;
 import com.events.UserEvents.entity.Event;
 import com.events.UserEvents.entity.Message;
 import com.events.UserEvents.entity.User;
 
 @Repository
-//@Transactional
+
 public class DAORepositoryService {
 
 	@Autowired
@@ -38,10 +34,6 @@ public class DAORepositoryService {
 	@Autowired
 	EntityManager em;
 
-	//private static final Logger log = LoggerFactory.getLogger(UserRepositoryCommandLineRunner.class);
-
-	private Map mapEvents;
-
 	private Map eventWallMap;
 
 	@Transactional
@@ -50,18 +42,12 @@ public class DAORepositoryService {
 
 		User user = new User(firstName, lastName, email, location, state, password);
 
-		user = saveUser(user);
+		user = userRepository.save(user);
 
 		return user.getId();
 	}
 
-	@Transactional
-	public User saveUser(User user) {
-
-		user = userRepository.save(user);
-		return user;
-
-	}
+	
 
 	public User findUserByEmail(String email) {
 		return userRepository.findByEmail(email);
@@ -80,13 +66,7 @@ public class DAORepositoryService {
 		return eventRepository.findById(eventId).get();
 	}
 
-	public Map getEventsMap() {
-		return mapEvents;
-	}
-
 	/**
-	 * eventcreated in Event table
-	 * 
 	 * @param userId
 	 * @param event
 	 */
@@ -99,7 +79,6 @@ public class DAORepositoryService {
 		event.setUserCreated(userById);
 		event = eventRepository.save(event);
 
-		//mapEvents = getAllEvents(userId);
 		return event;
 
 	}
@@ -121,13 +100,10 @@ public class DAORepositoryService {
 		Event event = e.get();
 
 		user.addEventJoining(event);
-		event.addUser(user);  //ManytoMany
-		
+		event.addUser(user); // ManytoMany
+
 		userRepository.save(user);
 
-		//mapEvents = getAllEvents(userId);
-
-		//return mapEvents;
 	}
 
 	@Transactional
@@ -136,18 +112,8 @@ public class DAORepositoryService {
 		Optional<User> u = findUser(userId);
 		User user = u.get();
 
-		
 		Optional<Event> e = eventRepository.findById(eventId);
 		Event event = e.get();
-
-		// Try Load using join fetch to avoid lazy fetch exception error if @Transactional
-		// does not work
-
-		/*
-		 * Query query = em.
-		 * createQuery("select u from User u left join fetch u.events WHERE u.id = ?1 "
-		 * ); query.setParameter(1, user.getId() ); user.getEvents() ;
-		 */
 
 		user.getEvents().remove(event);
 
@@ -155,16 +121,12 @@ public class DAORepositoryService {
 
 		userRepository.save(user);
 
-		//mapEvents = getAllEvents(userId);
-
-		//return mapEvents;
-
 	}
 
 	@Transactional
 	public Map getAllEvents(long userId) {
 
-		System.out.println("User : " + userId);
+		
 
 		HashMap map = new HashMap();
 
@@ -174,22 +136,13 @@ public class DAORepositoryService {
 
 		String userState = user.getState();
 
-		System.out.println("state: " + userState);
-
-		//
+		
 
 		List<Event> eventsCreatedInMyState = eventRepository.findByUserCreatedAndStateIgnoreCase(user, userState);
 
-		System.out.println(" " + eventsCreatedInMyState.size());
-		for (Object result : eventsCreatedInMyState) {
-			Event event = (Event) result;
-			System.out.println(event.getEventName());
-		}
+		
 
 		map.put("createdInState", eventsCreatedInMyState);
-
-		// step 2 - Now, fetch events from join table, by userid and mystate : UI status
-		// "Joining"
 
 		Query query = em.createQuery("Select e  from Event e JOIN e.users u WHERE u.id = ?1 AND e.state = ?2");
 		query.setParameter(1, userId);
@@ -198,9 +151,6 @@ public class DAORepositoryService {
 		List resultList = query.getResultList();
 
 		map.put("joiningInState", resultList);
-
-		// step3: Fetch from events table in My state AND NOT IN USER_EVENT table Not
-		// joined yet AND other created : UI link Join
 
 		Query toJoinQuery = em.createQuery(" Select e  from Event e join e.userCreated u where u.id <> ?1 "
 				+ " AND e.state = ?2 " + " AND NOT EXISTS ( SELECT u from e.users u WHERE u.id = ?3   )  ");
@@ -212,14 +162,12 @@ public class DAORepositoryService {
 
 		map.put("toJoinInState", toJoinResultList);
 
-		// Other states fetch data
-
 		List<Event> eventsCreatedNotInMyState = eventRepository.findByUserCreatedAndStateNotIgnoreCase(user,
 				user.getState());
 
 		map.put("createdOtherStates", eventsCreatedNotInMyState);
 
-		//
+		
 
 		Query joiningOtherStatesQuery = em
 				.createQuery("Select e  from Event e JOIN e.users u WHERE u.id = ?1 AND e.state <> ?2");
@@ -230,7 +178,7 @@ public class DAORepositoryService {
 
 		map.put("joiningOtherStates", joiningOtherStateResultList);
 
-		//
+		
 
 		Query toJoinOtherStatesQuery = em.createQuery(" Select e  from Event e join e.userCreated u where u.id <> ?1 "
 				+ " AND e.state <> ?2 " + " AND NOT EXISTS ( SELECT u from e.users u WHERE u.id = ?3   )  ");
@@ -241,7 +189,7 @@ public class DAORepositoryService {
 		List toJoinOtherStatesResultList = toJoinOtherStatesQuery.getResultList();
 
 		map.put("toJoinOtherStates", toJoinOtherStatesResultList);
-		
+
 		map.put("currentUser", user.getFirstName());
 
 		return map;
@@ -249,13 +197,14 @@ public class DAORepositoryService {
 	}
 
 	@Transactional
-	public void editEvent(long eventId, String name, String date, String location, String state, long userId) throws Exception {
+	public void editEvent(long eventId, String name, String date, String location, String state, long userId)
+			throws Exception {
 
 		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 		java.util.Date eventdate = format.parse(date);
 
 		Event event = eventRepository.findById(eventId).get();
-		System.out.println(event.getEventLocation());
+		
 
 		event.setEventName(name);
 		event.setEventDate(eventdate);
@@ -264,9 +213,6 @@ public class DAORepositoryService {
 
 		eventRepository.save(event);
 
-		//mapEvents = getAllEvents(userId);
-
-		//return mapEvents;
 	}
 
 	@Transactional
@@ -280,18 +226,7 @@ public class DAORepositoryService {
 		q.setParameter(1, eventId);
 		q.executeUpdate();
 
-		/*
-		   Optional<Event> e = eventRepository.findById(eventId); 
-		   Event event = e.get();
-		   
-		   for( User user : event.getUsers() ) { 
-		   		user.getEvents().remove(event); 
-		   }
-		 */
-
 		eventRepository.deleteById(eventId);
-
-		//mapEvents = getAllEvents(userId);
 
 	}
 
@@ -299,12 +234,11 @@ public class DAORepositoryService {
 	public Map checkEventCreatedByLoggedInUser(long userId, String eventId) {
 
 		Map map = new HashMap();
+
 		
-		System.out.println("Event ID : " + eventId);
 
 		Event event = findEventById(Long.parseLong(eventId));
 
-		// This is to avoid data base work or business logic in controller
 		if (userId == event.getUserCreated().getId()) {
 
 			map.put("eventCreatedLoggedUser", true);
@@ -339,7 +273,7 @@ public class DAORepositoryService {
 
 		Event e = event.get();
 
-		msg.setEvent(e); // Store the eventID in table
+		msg.setEvent(e);
 
 		msg.setUserSent(userById);
 
@@ -354,24 +288,19 @@ public class DAORepositoryService {
 	@Transactional
 	public List<Message> getEventMessages(long userId, long eventId) {
 
-		// Select e from Event e join e.userCreated u where u.id <> ?1
+	
 
 		String queryString = " SELECT   m " + "FROM  Message m " + "JOIN   m.userSent   u " + "JOIN   m.eventMessage e "
 				+ "WHERE  " + "e.id = ?1  AND " + " TIMESTAMPDIFF(SECOND, m.message_time , " + "'"
 				+ new Timestamp(System.currentTimeMillis()) + "' ) <= 300 " + "  order by  m.message_time ";
 
-		System.out.println(queryString);
+		
 
 		Query query = em.createQuery(queryString);
 
 		query.setParameter(1, eventId);
 
 		List resultList = query.getResultList();
-
-		/*for (Object o : resultList) {
-			Message m = (Message) o;
-			System.out.println(m.getMessage() + " " + m.getUserSent().getFirstName());
-		}*/
 
 		return resultList;
 
@@ -383,7 +312,7 @@ public class DAORepositoryService {
 
 		Map dataMap = new HashMap();
 
-		// Get users
+		
 
 		String queryString = " Select u  from Event e JOIN e.users u WHERE e.id = ?1 ";
 		Query query = em.createQuery(queryString);

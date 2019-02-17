@@ -29,7 +29,7 @@
             return false;
           }
 
-          //alert("You entered a valid password: " + form.password.value);
+          
           return true;
         }
 
@@ -123,8 +123,7 @@
 				<td
 					th:text="${#dates.format(tempEvent.getEventDate(),'MMMM, d,yyyy')}" />
 
-				<!-- "${#temporals.format(localDate, 'MM-yyyy')}"   -->
-
+				
 
 				<td><a th:href="@{'/events/' + ${tempEvent.id} + '/edit' }">
 						Edit </a> | <a th:href="@{'/events/delete/' + ${tempEvent.id} }">

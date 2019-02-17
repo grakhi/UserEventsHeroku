@@ -20,21 +20,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Event {
 
-
 	@Id
 	@GeneratedValue
 	private long id;
-	
-	private String eventName ;
-	
+
+	private String eventName;
+
 	public void setEventName(String eventName) {
 		this.eventName = eventName;
 	}
 
-	private Date eventDate ;
-	
-	private String eventLocation ;
-	
+	private Date eventDate;
+
+	private String eventLocation;
+
 	public void setEventDate(Date eventDate) {
 		this.eventDate = eventDate;
 	}
@@ -47,38 +46,31 @@ public class Event {
 		this.state = state;
 	}
 
-	private String state ;
-	
-	
-	//-----------------------------------------------
+	private String state;
+
 	@ManyToOne
-	
+
 	private User userCreated;
-	
-	
+
 	/**
-	 * Used the Default which is Lazy fetch, 
-	 * cascade=CascadeType.REMOVE OR cascade ALL should not be done as inaccurate results and performance issues
+	 * Used the Default which is Lazy fetch, cascade=CascadeType.REMOVE OR cascade
+	 * ALL should not be done as inaccurate results and performance issues
 	 */
-	
-	@ManyToMany(mappedBy="events")   //Users joining 
+
+	@ManyToMany(mappedBy = "events") // Users joining
 	private List<User> users = new ArrayList();
 
-
-	@OneToMany(mappedBy="eventMessage") //owner is Message
-	private List<Message> messages=new ArrayList();
-	
-	
-	//-----------------------------------------------
+	@OneToMany(mappedBy = "eventMessage") // owner is Message
+	private List<Message> messages = new ArrayList();
 
 	public List<Message> getMessages() {
 		return messages;
 	}
 
 	protected Event() {
-		
+
 	}
-	
+
 	public Event(String eventName, Date eventDate, String eventLocation, String state) {
 		super();
 		this.eventName = eventName;
@@ -87,24 +79,18 @@ public class Event {
 		this.state = state;
 	}
 
-	
-	public List<User> getUsers() {   //Users joining
+	public List<User> getUsers() { // Users joining
 		return users;
 	}
-	
+
 	public void addUser(User user) {
 		this.users.add(user);
 	}
 
-	
 	public void removeUser(User user) {
 		this.users.remove(user);
 	}
-	
-	 
-	
-	
-	
+
 	public long getId() {
 		return id;
 	}
@@ -117,7 +103,6 @@ public class Event {
 		return eventDate;
 	}
 
-	
 	public String getEventLocation() {
 		return eventLocation;
 	}
@@ -132,13 +117,10 @@ public class Event {
 
 	public void setUserCreated(User userCreated) {
 		this.userCreated = userCreated;
-	} 
-	
-	public void addReview( Message message) { 
-		  this.messages.add(message);
 	}
 
-		
+	public void addReview(Message message) {
+		this.messages.add(message);
+	}
 
-	
 }

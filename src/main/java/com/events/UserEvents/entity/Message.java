@@ -21,7 +21,7 @@ public class Message {
 		String message ;
 		
 
-		//-----------------------------------------------
+		
 		
 		@ManyToOne
 		private Event eventMessage;
@@ -30,7 +30,7 @@ public class Message {
 		private User userSent;
 		
 		
-		//-----------------------------------------------
+		
 		
 		public User getUserSent() {
 			return userSent;
