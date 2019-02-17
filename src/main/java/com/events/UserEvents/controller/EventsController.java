@@ -30,7 +30,7 @@ public class EventsController {
 	@Autowired
 	private DAORepositoryService DAORepositoryService;
 
-	private User loggedInUser;
+	
 	private long loggedInUserId;
 
 	Map mapEvents;
@@ -54,8 +54,6 @@ public class EventsController {
 
 	@GetMapping("/events")
 	public String listEvents(HttpServletRequest request, Model theModel) {
-
-		
 
 		fetchEventData();
 
@@ -88,15 +86,12 @@ public class EventsController {
 				request.getParameter("state"));
 
 		return "redirect:/events";
-
 	}
 
 	private void updateEvent(String name, String date, String location, String state) throws Exception {
 
 		Event event = new Event(name, DateUtils.formatDate(date), location, state);
-
 		event = DAORepositoryService.addEvent(getLoggedInUserId(), event);
-
 	}
 
 	@RequestMapping(value = "/events/edit/", method = RequestMethod.POST)
@@ -162,7 +157,6 @@ public class EventsController {
 		theModel.addAttribute("countJoiners", dataMap.get("countJoiners"));
 		theModel.addAttribute("eventData", dataMap.get("eventData"));
 		theModel.addAttribute("wallmessages", dataMap.get("wallmessages"));
-
 	}
 
 	@RequestMapping(value = "/events/comment/", method = RequestMethod.POST)
@@ -184,7 +178,7 @@ public class EventsController {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		loggedInUser = DAORepositoryService.findUserByEmail(auth.getName());
+		User loggedInUser = DAORepositoryService.findUserByEmail(auth.getName());
 
 		loggedInUserId = loggedInUser.getId();
 

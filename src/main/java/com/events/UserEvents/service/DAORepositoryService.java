@@ -136,11 +136,7 @@ public class DAORepositoryService {
 
 		String userState = user.getState();
 
-		
-
 		List<Event> eventsCreatedInMyState = eventRepository.findByUserCreatedAndStateIgnoreCase(user, userState);
-
-		
 
 		map.put("createdInState", eventsCreatedInMyState);
 
@@ -313,25 +309,17 @@ public class DAORepositoryService {
 		Map dataMap = new HashMap();
 
 		
-
-		String queryString = " Select u  from Event e JOIN e.users u WHERE e.id = ?1 ";
-		Query query = em.createQuery(queryString);
-		query.setParameter(1, eventId);
-
-		List resultList = query.getResultList();
-
 		Optional<Event> obj = eventRepository.findById(eventId);
 
 		Event event = obj.get();
+		
+		List<User> resultList = event.getUsers();
 
 		// Get count
 
-		queryString = " Select count(*)  from Event e JOIN e.users u WHERE e.id = ?1   ";
-
-		Query countQuery = em.createQuery(queryString);
-		countQuery.setParameter(1, eventId);
-
-		long count = (Long) countQuery.getSingleResult();
+		
+		
+		long count = resultList.size();
 
 		// Put data in map so controller does not do seperate session for fetching data
 
