@@ -82,27 +82,21 @@ public class EventsController {
 	@GetMapping("/events/join/{id}")
 	public String joinEvent(@PathVariable("id") String eventId, Model theModel) {
 
-		//mapEvents = 
+		
 		DAORepositoryService.addJoiningEvent(getLoggedInUserId(), Integer.parseInt(eventId));
 
-		// fetchEventData();
-		//updateLists(theModel);
-		
 		return "redirect:/events";
-
-		//return "displayevents";
-
 	}
 
 	@GetMapping("/events/cancel/{id}")
 	public String cancelEvent(@PathVariable("id") String eventId, Model theModel) {
 
-		mapEvents = DAORepositoryService.deleteJoiningEvent(getLoggedInUserId(), Long.parseLong(eventId));
+		
+		DAORepositoryService.deleteJoiningEvent(getLoggedInUserId(), Long.parseLong(eventId));
 
-		// fetchEventData();
-		updateLists(theModel);
-
-		return "displayevents";
+		
+		return "redirect:/events";
+		
 
 	}
 
@@ -112,11 +106,9 @@ public class EventsController {
 		updateEvent(request.getParameter("eventname"), request.getParameter("date"), request.getParameter("location"),
 				request.getParameter("state"));
 
-		mapEvents = DAORepositoryService.getEventsMap();
-		// fetchEventData();
-		updateLists(model);
-
-		return "displayevents";
+		
+        return "redirect:/events";
+		
 	}
 
 	private void updateEvent(String name, String date, String location, String state) throws Exception {
@@ -131,15 +123,15 @@ public class EventsController {
 	@RequestMapping(value = "/events/edit/", method = RequestMethod.POST)
 	public String editEvent(HttpServletRequest request, Model model) throws Exception {
 
-		mapEvents = DAORepositoryService.editEvent(Long.parseLong(request.getParameter("eventId")),
+		
+		DAORepositoryService.editEvent(Long.parseLong(request.getParameter("eventId")),
 				request.getParameter("name"),
 				request.getParameter("date"), request.getParameter("location"), request.getParameter("state"),
 				getLoggedInUserId());
 
-		// fetchEventData();
-		updateLists(model);
+		
 
-		return "displayevents";
+		return "redirect:/events";
 
 	}
 
@@ -167,16 +159,16 @@ public class EventsController {
 
 	}
 
-	//@DeleteMapping("/events/delete/{id}") -- cannot give  DELETE on link in html
+	//@DeleteMapping("/events/delete/{id}")
 	@RequestMapping(value = "/events/delete/{id}")
 	
 	public String deleteEvent(@PathVariable("id") Long eventId, Model theModel) {
 
 		DAORepositoryService.deleteEvent(eventId, getLoggedInUserId());
-		mapEvents = DAORepositoryService.getEventsMap();
-
-		updateLists(theModel);
-		return "displayevents";
+		
+		
+		return "redirect:/events";
+		
 
 	}
 
@@ -218,35 +210,19 @@ public class EventsController {
 
 	private void setLoggedInUserID() {
 
-		//For not get loggedInID everytime as no log out implemented yet and same instance update due to multiple
-		//logins for demo purpose.
-		//if (loggedInUser == null) {
-
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		System.out.println("Logged In User : " + auth.getName());
-
+		
 		loggedInUser = DAORepositoryService.findUserByEmail(auth.getName());
 
 		loggedInUserId = loggedInUser.getId();
-
-		
-	//	loggedInUserId = 2; //Bypass spring security to test Heroku
-			
-		//}
+	
 	}
 
 	private long getLoggedInUserId() {
 
-	//	loggedInUserId = 3;
 	
-	//	loggedInUserId =   2; //Bypass spring security to test Heroku
-		
-		
-		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-		System.out.println("Logged In User : " + auth.getName());
 
 		loggedInUser = DAORepositoryService.findUserByEmail(auth.getName());
 

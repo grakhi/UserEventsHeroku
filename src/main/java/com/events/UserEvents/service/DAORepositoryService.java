@@ -99,7 +99,7 @@ public class DAORepositoryService {
 		event.setUserCreated(userById);
 		event = eventRepository.save(event);
 
-		mapEvents = getAllEvents(userId);
+		//mapEvents = getAllEvents(userId);
 		return event;
 
 	}
@@ -131,7 +131,7 @@ public class DAORepositoryService {
 	}
 
 	@Transactional
-	public Map deleteJoiningEvent(long userId, long eventId) {
+	public void deleteJoiningEvent(long userId, long eventId) {
 
 		Optional<User> u = findUser(userId);
 		User user = u.get();
@@ -155,9 +155,9 @@ public class DAORepositoryService {
 
 		userRepository.save(user);
 
-		mapEvents = getAllEvents(userId);
+		//mapEvents = getAllEvents(userId);
 
-		return mapEvents;
+		//return mapEvents;
 
 	}
 
@@ -249,7 +249,7 @@ public class DAORepositoryService {
 	}
 
 	@Transactional
-	public Map editEvent(long eventId, String name, String date, String location, String state, long userId) throws Exception {
+	public void editEvent(long eventId, String name, String date, String location, String state, long userId) throws Exception {
 
 		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 		java.util.Date eventdate = format.parse(date);
@@ -264,9 +264,9 @@ public class DAORepositoryService {
 
 		eventRepository.save(event);
 
-		mapEvents = getAllEvents(userId);
+		//mapEvents = getAllEvents(userId);
 
-		return mapEvents;
+		//return mapEvents;
 	}
 
 	@Transactional
@@ -291,7 +291,7 @@ public class DAORepositoryService {
 
 		eventRepository.deleteById(eventId);
 
-		mapEvents = getAllEvents(userId);
+		//mapEvents = getAllEvents(userId);
 
 	}
 
