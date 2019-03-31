@@ -214,7 +214,7 @@ public class DAORepositoryService {
 		event.setEventLocation(location);
 		event.setState(state);
 
-		eventRepository.save(event);
+	//	eventRepository.save(event);
 
 	}
 
